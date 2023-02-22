@@ -1,0 +1,28 @@
+\frametitle{For further references see :}
+\begin{scriptsize}
+%For further references see :% \href{http://www.sharelatex.com}{Something Linky} or go to the next url: \url{http://www.sharelatex.com}
+\begin{itemize}
+\item \href{http://physics.oregonstate.edu/~landaur/nacphy/lapack/fortran.html}{Using Lapack Routines in Fortran Programs}
+\item \href{http://physics.oregonstate.edu/~landaur/nacphy/lapack/cprogp.html}{Using Lapack Routines in C Programs}
+\item \href{https://people.sc.fsu.edu/~jburkardt/f_src/lapack_examples/lapack_examples.html}{LAPACK EXAMPLES - Example Programs for LAPACK}
+\item \href{http://www.netlib.org/lapack/explore-html/dir_01b0e9dedaacaaad221a964f5affeb80.html}{LAPACK: Linear Algebra PACKage}
+\item \href{http://www.netlib.org/lapack/}{Linear Algebra PACKage}
+\item \href{http://www.netlib.org/lapack/lapacke.html}{The LAPACKE C Interface to LAPACK}
+\item \href{https://software.intel.com/en-us/node/528727}{Calling LAPACK, BLAS, and CBLAS Routines from C/C++ Language Environments}
+\item \href{http://www.netlib.org/lapack/explore-html/d5/df8/example___d_g_e_s_v__colmajor_8c.html}{example\_DGESV\_colmajor.c File Reference}
+\item \href{http://www.netlib.org/lapack/explore-html/d6/d06/example___d_g_e_s_v__rowmajor_8c_source.html}{example\_DGESV\_rowmajor.c}
+\item \href{https://userinfo.surfsara.nl/systems/lisa/software/lapacke}{Using LAPACK from C}
+\item \href{https://software.intel.com/en-us/articles/intel-math-kernel-library-documentation}{Intel® Math Kernel Library – Documentation}
+\item \href{https://en.wikipedia.org/wiki/Math_Kernel_Library}{Math Kernel Library}
+\item \href{http://www.seehuhn.de/pages/matrixfn}{Calculating the Square Root of a Matrix}
+\item \href{http://courses.washington.edu/css342/zander/css332/passby.html}{Function pass by value vs. pass by reference}
+\item \href{https://www.codingunit.com/c-tutorial-call-by-value-or-call-by-reference}{C Tutorial – Call by Value or Call by Reference}
+\item \href{https://gcc.gnu.org/onlinedocs/gcc-4.9.2/gfortran/Argument-passing-conventions.html}{Argument passing conventions}
+\item \href{http://www.netlib.org/lapack/explore-html/d2/d8a/group__double_s_yeigen_ga2ad9f4a91cddbf67fe41b621bd158f5c.html#ga2ad9f4a91cddbf67fe41b621bd158f5c}{LAPACK- DSYEVR}
+\item \href{https://software.intel.com/sites/products/documentation/doclib/mkl_sa/11/mkl_lapack_examples/dsyevr.htm}{DSYEVR Example}
+\item \href{http://www.netlib.org/lapack/lapwrapc/}{C wrapper for LAPACK}
+\item \href{http://www.netlib.org/lapack/explore-html/d1/d54/group__double__blas__level3_gaeda3cbd99c8fb834a60a6412878226e1.html#gaeda3cbd99c8fb834a60a6412878226e1}{BLAS - DGEMM}
+\item \href{https://www.christophlassner.de/using-blas-from-c-with-row-major-data.html}{Using BLAS from C with row major data}
+\item \href{https://software.intel.com/en-us/node/520775}{cblas\_?gemm}
+\end{itemize}
+\end{scriptsize}

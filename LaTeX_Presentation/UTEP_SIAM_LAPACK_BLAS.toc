@@ -1,0 +1,12 @@
+\beamer@sectionintoc {2}{\scshape Linear Algebra}{3}{0}{1}
+\beamer@sectionintoc {5}{\scshape Matlab and Intel Math Kernel Library (MKL)}{6}{0}{2}
+\beamer@sectionintoc {6}{\scshape BLAS,and LAPACK}{7}{0}{3}
+\beamer@sectionintoc {7}{\scshape BLAS (Basic Linear Algebra Subprograms) }{8}{0}{4}
+\beamer@sectionintoc {8}{\scshape LAPACK (Linear Algebra Package)}{9}{0}{5}
+\beamer@sectionintoc {9}{\scshape How to implement BLAS/LAPACK}{10}{0}{6}
+\beamer@sectionintoc {10}{\scshape How arguments are passed to a subroutine}{11}{0}{7}
+\beamer@sectionintoc {11}{\scshape Examples: Exponential Matrix}{14}{0}{8}
+\beamer@subsectionintoc {12}{1}{\scshape Symmetric Matrix}{16}{0}{8}
+\beamer@subsectionintoc {12}{9}{\scshape Real Matrix}{26}{0}{8}
+\beamer@sectionintoc {13}{\scshape Linking to others Web Pages}{30}{0}{9}
+\beamer@sectionintoc {14}{END}{31}{0}{10}

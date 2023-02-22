@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html data-savefrom-tab-data="{&quot;module&quot;:&quot;lm&quot;,&quot;tooltip&quot;:&quot;Links found: 0&quot;}" lang="en"><head>
+<title>Calculating the Square Root of a Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/58716a62.css" type="text/css">
+<script async="" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/cbgapi.loaded_1"></script><script async="" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/cbgapi.loaded_0"></script><script src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/ca-pub-1728007349753951.js" type="text/javascript" async=""></script><script gapi_processed="true" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/plusone.js" async="" type="text/javascript"></script><script src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/ga.js" async="" type="text/javascript"></script><script type="text/javascript" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/b7ca544c.js" async=""></script>
+<link href="https://plus.google.com/105824896728339699453" rel="publisher">
+<meta name="Author" content="Jochen Voss">
+<link rel="canonical" href="http://www.seehuhn.de/pages/matrixfn">
+<meta name="description" content="How to use LAPACK in a C program to calculate the square root of a positive definite matrix.">
+<meta name="keywords" content="tutorial, CBLAS, LAPACK, C program, square root, matrices">
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-5610669-1']);
+  _gaq.push(['_setDomainName', 'www.seehuhn.de']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+
+<body data-savefrom-link-count="30">
+<ul class="nav">
+<li class="trail"><a href="http://www.seehuhn.de/">seehuhn.de</a>
+</li><li class="trail"><a href="http://www.seehuhn.de/sitemap/categories/Tutorials">Tutorials</a>
+</li><li><a href="http://www.seehuhn.de/blog/">blog</a>
+</li><li><a href="http://www.seehuhn.de/photos/">photos</a>
+</li><li><a href="http://www.seehuhn.de/sitemap.html">sitemap</a>
+</li></ul>
+<div class="side urlinfo" itemscope="" itemtype="http://schema.org/WPSideBar">
+<p><a class="title" href="http://www.seehuhn.de/pages/apps">How to Write an HTML5 App?</a>
+A tutorial about writing HTML5 Apps, using HTML, JavaScript and CSS.
+<a class="tail" href="http://www.seehuhn.de/pages/apps">… read more</a>
+</p><img style="position: absolute; width: 16px; height: 16px; top: -7px; right: -7px; cursor: pointer;" class="decorator" alt="X" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/close.png"></div>
+<div class="side urlinfo" itemscope="" itemtype="http://schema.org/WPSideBar">
+<p><a class="title" href="http://www.seehuhn.de/pages/linear">Numerical Linear Algebra Packages on Linux.</a>
+Various linear algebra libraries are available for use in C programs on Linux.  This page given an overview.
+<a class="tail" href="http://www.seehuhn.de/pages/linear">… read more</a>
+</p><img style="position: absolute; width: 16px; height: 16px; top: -7px; right: -7px; cursor: pointer;" class="decorator" alt="X" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/close.png"></div>
+<div class="side ad wide" itemscope="" itemtype="http://schema.org/WPAdBlock">
+<script async="" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/adsbygoogle.js"></script>
+<!-- 2012-01-26:red:180x150 -->
+<ins data-adsbygoogle-status="done" class="adsbygoogle" style="display:inline-block;width:180px;height:150px" data-ad-client="ca-pub-1728007349753951" data-ad-slot="4483736174"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:150px;margin:0;padding:0;position:relative;visibility:visible;width:180px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:150px;margin:0;padding:0;position:relative;visibility:visible;width:180px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;" frameborder="0" height="150" width="180"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<img style="position: absolute; width: 16px; height: 16px; top: -7px; right: -7px; cursor: pointer;" class="decorator" alt="X" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/close.png"></div>
+<div class="side urlinfo" itemscope="" itemtype="http://schema.org/WPSideBar">
+<p><a class="title" href="http://www.seehuhn.de/pages/csimgen">CSimGen.</a>
+Homepage of the CSimGen code generator
+<a class="tail" href="http://www.seehuhn.de/pages/csimgen">… read more</a>
+</p><img style="position: absolute; width: 16px; height: 16px; top: -7px; right: -7px; cursor: pointer;" class="decorator" alt="X" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/close.png"></div>
+
+
+<h1>Calculating the Square Root of a Matrix</h1>
+<p class="date"><span>By Jochen Voss, last updated 2012-02-18</span><span class="noprint"><div id="___plusone_0" style="text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 90px; height: 20px;"><iframe title="+1" data-gapiattached="true" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/fastbutton.html" name="I0_1413995898098" id="I0_1413995898098" vspace="0" tabindex="0" style="position: static; top: 0px; width: 90px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" scrolling="no" marginwidth="0" marginheight="0" hspace="0" frameborder="0" width="100%"></iframe></div></span></p>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<p>This tutorial explains how to use the LAPACK and BLAS libraries in a C
+program to calculate the square root (or another function) of a positive
+semi-definite, symmetric matrix. This serves as a non-trivial example for
+the use of LAPACK functions. We will see how to call the LAPACK Fortran
+code from a C program and how to use the BLAS C bindings to multiply
+matrices. This text assumes that you are already familiar with my text
+about
+<a href="http://www.seehuhn.de/pages/linear">numerical linear algebra packages on Linux</a>.
+Feedback is very welcome; please direct any comments and suggestions for
+improvement to <a href="http://www.seehuhn.de/">me</a>.
+</p><h2>Contents</h2><ul class="toc">
+<li><a href="#overview">Overview</a>
+</li><li><a href="#diagonalise">Diagonalising a Matrix</a>
+</li><li><a href="#arrays">Fortran Array Conventions</a>
+</li><li><a href="#multiply">Multiplying Matrices</a>
+</li><li><a href="#root">Calculating the Square Root</a>
+</li><li><a href="#conclusion">Conclusion</a>
+</li><li><a href="#references">References</a>
+</li></ul>
+<h2 id="overview">Overview</h2>
+<p>We want to write a program that, for a given symmetric, positive
+semi-definite matrix <i>A</i>, finds another square matrix <i>B</i>, such
+that <i>A</i>=<i>B</i>⋅<i>B</i>. In analogy to the square root of a
+number, this matrix <i>B</i> is called the square root of the
+matrix&nbsp;<i>A</i>.
+</p><p>To find the matrix <i>B</i> we perform several steps. First we
+diagonalise <i>A</i>, i.e. we find an orthogonal matrix <i>Z</i>, such
+that
+</p><div class="equ">
+  <i>A</i> = <i>Z</i>⋅<i>D</i>⋅<i>Z</i><sup><i>T</i></sup>,
+</div>
+<p>where <i>D</i> is a diagonal matrix. The columns of <i>Z</i> consist of
+the orthonormal eigenvectors of <i>A</i> and the diagonal elements of
+<i>D</i> are the corresponding eigenvalues. We will use a LAPACK function
+for spectral factorisation of a symmetric matrix to obtain <i>D</i>
+and&nbsp;<i>Z</i>.
+</p><p>Next, we have to find the square root of the diagonal matrix <i>D</i>.
+Because <i>A</i> is positive semi-definite, all the diagonal elements of
+<i>D</i> are positive and we can define a new matrix <i>D</i>' by
+replacing every diagonal element with its square root. This new matrix
+satisfies
+</p><div class="equ">
+  <i>D</i> = <i>D</i>'⋅<i>D</i>',
+</div>
+<p>i.e. we have found the square root of&nbsp;<i>D</i>.
+</p><p>Finally we have to calculate
+</p><div class="equ">
+  <i>A</i>' = <i>Z</i>⋅<i>D</i>'⋅<i>Z</i><sup><i>T</i></sup>
+</div>
+<p>to obtain the square root <i>A</i>' of <i>A</i>. This will be done
+using the BLAS level&nbsp;3 routines for matrix-matrix multiplictions.
+</p><p>Strictly speaking each positive number has <em>two</em> square roots: a
+positive one and a negative one. Similarly a symmetric, positive definite
+<i>n</i>×<i>n</i>-matrix has 2<sup><i>n</i></sup> distinct square
+roots. These can be obtained by choosing all possible combinations of plus
+and minus signs in front of the <i>n</i> diagonal elements of the matrix
+<i>D</i>'. Here we will ignore this ambiguity and only calculate the
+unique positive semi-definite square root.
+</p><h2 id="diagonalise">Diagonalising a Matrix</h2>
+<p>We can find the LAPACK functions to diagonalise matrices on the
+<a href="http://www.netlib.org/lapack/lug/node29.html">Standard Eigenvalue and Singular Value Problems</a>
+page of the LAPACK Users' Guide. Because our matrix is real valued and
+symmetric we choose the <code>DSYEVR</code> function from
+<a href="http://www.netlib.org/lapack/lug/node32.html#tabdriveseig">table 2.5</a>
+there.
+</p><p>The Fortran function <code>DSYEVR</code> can be accessed within C
+programs as <code>dsyevr_</code> and we can find the argument list in the
+initial comment of the Fortran source file the
+<a href="http://www.netlib.org/lapack/double/dsyevr.f">dsyevr.f</a> in the
+netlib archive. We use the following wrapper code to conveniently access
+the function from&nbsp;C.
+</p><pre class="listing">int
+dsyevr(char JOBZ, char RANGE, char UPLO, int N,
+       double *A, int LDA, double VL, double VU,
+       int IL, int IU, double ABSTOL, int *M,
+       double *W, double *Z, int LDZ, int *ISUPPZ,
+       double *WORK, int LWORK, int *IWORK, int LIWORK)
+{
+  extern void dsyevr_(char *JOBZp, char *RANGEp, char *UPLOp, int *Np,
+                      double *A, int *LDAp, double *VLp, double *VUp,
+                      int *ILp, int *IUp, double *ABSTOLp, int *Mp,
+                      double *W, double *Z, int *LDZp, int *ISUPPZ,
+                      double *WORK, int *LWORKp, int *IWORK, int *LIWORKp,
+                      int *INFOp);
+  int INFO;
+  dsyevr_(&amp;JOBZ, &amp;RANGE, &amp;UPLO, &amp;N, A, &amp;LDA, &amp;VL, &amp;VU,
+          &amp;IL, &amp;IU, &amp;ABSTOL, M, W, Z, &amp;LDZ, ISUPPZ,
+          WORK, &amp;LWORK, IWORK, &amp;LIWORK, &amp;INFO);
+  return INFO;
+}
+</pre>
+<p>The most important arguments are shortly described in the following
+list. Full information can be found in the Fortran source file.
+</p><ul>
+<li><code>A</code> is the input matrix, its memory layout is specified by
+the parameters <code>N</code> and <code>LDA</code>.
+</li><li>The list of eigenvalues is returned in the array <code>W</code>.
+</li><li>The eigenvectors are returned in the matrix <code>Z</code>.
+</li><li>Because the input matrix is symmetric we need to specify only half of
+it. <code>UPLO</code> specifies which half of the input matrix is used.
+</li></ul>
+<h2 id="arrays">Fortran Array Conventions</h2>
+<p>The matrix arguments in the function <code>dsyevr</code> are of type
+<code>double *</code>; they are pointers to the top-left element of the
+matrix. The matrices are expected to be in column-major order, i.e. the
+elements of each column must be adjacent in memory. This is different from
+the usual C language convention for two-dimensional arrays. We will use
+the following helper functions to access the elements. As usual the index
+<code>i</code> is used for the row, and <code>j</code> is used for the
+column. The top left element of the matrix is accessed by setting
+<code>i=0</code> and <code>j=0</code>. The value <code>N</code> is the
+number of rows of the matrix&nbsp;<code>A</code>.
+</p><pre class="listing">void
+set_entry(double *A, int i, int j, double val)
+{
+  A[j*N+i] = val;
+}
+
+double
+get_entry(const double *A, int i, int j)
+{
+  return A[j*N+i];
+}
+</pre>
+<p>Note that Fortran uses array indices starting at 1. Since this does not
+affect the data-layout in memory we can ignore this and use the C indexing
+conventions (i.e. first entry has index 0) in our code.
+</p><h2 id="multiply">Multiplying Matrices</h2>
+<p>We will use the CBLAS function <code>cblas_dgemm</code> to calculate
+matrix products. The function is declared in the header file
+<code>&lt;cblas.h&gt;</code>, the arguments are described in the CBLAS
+reference document (file
+<code>/usr/share/doc/atlas3-doc/cblas.ps.gz</code> on Debian Linux) and in
+the <a href="http://www.netlib.org/blas/dgemm.f">dgemm.f</a> Fortran
+source file.
+</p><p>The CBLAS functions allow for matrices in either row-major order or
+column-major order. The use of <code>dsyevr</code> to calculate the
+eigenvectors forces us to choose column-major order here. The call to
+calculate <code>C=A*B</code> for <code>N</code>×<code>N</code>
+matrices turns out to be
+</p><pre class="listing">cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans,
+            N, N, N, 1, A, N, B, N, 0, C, N);
+</pre>
+<h2 id="root">Calculating the Square Root</h2>
+<p>The following code (file
+<a href="http://m.seehuhn.de/data/matroot.c"><code>matroot.c</code></a>)
+puts everything together to calculate the square root of a matrix.
+</p><pre class="listing">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;cblas.h&gt;
+
+
+static const int N = 7;
+
+&lt;em&gt;... add the code from above here ...&lt;/em&gt;
+
+static double
+dlamch(char CMACH)
+{
+  extern double dlamch_(char *CMACHp);
+  return dlamch_(&amp;CMACH);
+}
+
+int
+main ()
+{
+  double *A, *B, *W, *Z, *WORK;
+  int *ISUPPZ, *IWORK;
+  int  i, j;
+  int  M;
+
+  /* allocate and initialise the matrix */
+  A = malloc(N*N*sizeof(double));
+  for (i=0; i&lt;N; ++i) {
+    for (j=0; j&lt;i-1; ++j) {
+      set_entry(A, i, j, 0);
+    }
+  }
+  for (i=0; i&lt;N-1; ++i)  set_entry(A, i+1, i, -1);
+  for (i=1; i&lt;N-1; ++i)  set_entry(A, i, i, 2);
+  set_entry(A, 0, 0, 1);
+  set_entry(A, N-1, N-1, 1);
+
+  /* allocate space for the output parameters and workspace arrays */
+  W = malloc(N*sizeof(double));
+  Z = malloc(N*N*sizeof(double));
+  ISUPPZ = malloc(2*N*sizeof(int));
+  WORK = malloc(26*N*sizeof(double));
+  IWORK = malloc(10*N*sizeof(int));
+
+  /* get the eigenvalues and eigenvectors */
+  dsyevr('V', 'A', 'L', N, A, N, 0, 0, 0, 0, dlamch('S'), &amp;M,
+         W, Z, N, ISUPPZ, WORK, 26*N, IWORK, 10*N);
+
+  /* allocate and initialise a new matrix B=Z*D */
+  B = malloc(N*N*sizeof(double));
+  for (j=0; j&lt;N; ++j) {
+    double  lambda=sqrt(W[j]);
+    for (i=0; i&lt;N; ++i) {
+      set_entry(B, i, j, get_entry(Z,i,j)*lambda);
+    }
+  }
+
+  /* calculate the square root A=B*Z^T */
+  cblas_dgemm(CblasColMajor, CblasNoTrans, CblasTrans, N, N, N,
+              1, B, N, Z, N, 0, A, N);
+
+  /* emit the result */
+  for (i=0; i&lt;N; ++i) {
+    for (j=0; j&lt;N; ++j) {
+      double  x = get_entry(A, i, j);
+      printf("%6.2f", x);
+    }
+    putchar('\n');
+  }
+  putchar('\n');
+
+  /* check the result by calculating A*A */
+  memcpy(B, A, N*N*sizeof(double));
+  cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, N, N, N,
+              1, A, N, B, N, 0, Z, N);
+
+  for (i=0; i&lt;N; ++i) {
+    for (j=0; j&lt;N; ++j) {
+      double  x = get_entry(Z, i, j);
+      printf("%6.2f", x);
+    }
+    putchar('\n');
+  }
+
+  return 0;
+}
+</pre>
+<p>To compile this program we use the following command.
+</p><pre class="listing">cc matroot.c -o matroot -llapack -lblas -lm
+</pre>
+<p>The program has the following output.
+</p><pre class="listing">  0.84 -0.52 -0.13 -0.07 -0.05 -0.04 -0.03
+ -0.52  1.23 -0.46 -0.11 -0.06 -0.04 -0.04
+ -0.13 -0.46  1.25 -0.45 -0.11 -0.06 -0.05
+ -0.07 -0.11 -0.45  1.25 -0.45 -0.11 -0.07
+ -0.05 -0.06 -0.11 -0.45  1.25 -0.46 -0.13
+ -0.04 -0.04 -0.06 -0.11 -0.46  1.23 -0.52
+ -0.03 -0.04 -0.05 -0.07 -0.13 -0.52  0.84
+
+  1.00 -1.00  0.00 -0.00  0.00  0.00 -0.00
+ -1.00  2.00 -1.00 -0.00 -0.00  0.00  0.00
+  0.00 -1.00  2.00 -1.00 -0.00 -0.00  0.00
+ -0.00 -0.00 -1.00  2.00 -1.00  0.00 -0.00
+  0.00 -0.00 -0.00 -1.00  2.00 -1.00  0.00
+  0.00  0.00 -0.00  0.00 -1.00  2.00 -1.00
+ -0.00  0.00  0.00 -0.00  0.00 -1.00  1.00
+</pre>
+<p>The first matrix is the result: the square root of the original matrix.
+To verify that everything worked correctly, we multiply this matrix with
+itself. The result is emitted as the second matrix, which is indeed
+identical to the original one. The strange signs in front of the zeros are
+caused by small rounding errors.
+</p><h2 id="conclusion">Conclusion</h2>
+<p>In this tutorial we have learnt how we can combine functions from the
+LAPACK and BLAS libraries to solve a non-trivial problem from linear
+algebra, namely to calculate the square root of a symmetric, positive
+semi-definite matrix.
+</p><p>The same method can be easily used to calculate other functions of the
+matrix. For example to get the exponential of the matrix we would just
+apply the function <code>exp</code> instead of <code>sqrt</code> to the
+eigenvalues.
+</p><h2 id="references">References</h2>
+<ul class="compact">
+<li>my text about
+<a href="http://www.seehuhn.de/pages/linear">numerical linear algebra packages on Linux</a>
+</li><li>the
+<a href="http://www.netlib.org/lapack/index.html">LAPACK homepage</a>,
+containing the
+<a href="http://www.netlib.org/lapack/lug/lapack_lug.html">LAPACK user's guide</a>
+</li><li>my
+<a href="http://www.seehuhn.de/pages/numlinalg">numerical linear algebra lecture notes</a>
+</li></ul>
+<p style="margin-top:4ex"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-1728007349753951";
+/* 2012-01-26:green:728x15 */
+google_ad_slot = "0662784425";
+google_ad_width = 728;
+google_ad_height = 15;
+//-->
+</script>
+<script type="text/javascript" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/show_ads.js">
+</script><ins id="aswift_0_expand" style="display:inline-table;border:none;height:15px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:15px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="15" width="728"></iframe></ins></ins>
+</p><p class="license">Copyright
+© 2012, Jochen Voss.  All content on this website
+(including text, pictures,
+and any other original works), unless otherwise noted, is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative
+Commons Attribution-Share Alike 3.0 License</a>.
+
+
+</p><iframe tabindex="-1" style="width: 1px; height: 1px; position: absolute; top: -100px;" src="Calculating%20the%20Square%20Root%20of%20a%20Matrix_files/postmessageRelay.html" id="oauth2relay472672506" name="oauth2relay472672506"></iframe></body></html>
